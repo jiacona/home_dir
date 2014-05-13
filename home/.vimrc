@@ -1,15 +1,14 @@
 " Pathogen
 execute pathogen#infect()
+execute pathogen#helptags()
+
 syntax on
-filetype indent on
-filetype plugin on
+filetype plugin indent on
 
 " Colorscheme
 set background=dark
-if $TERM == 'xterm-256color' || $TERM == 'screen-256color'
-  set t_Co=256
-  let g:solarized_termcolors=&t_Co
-endif
+set t_Co=256
+let g:solarized_termcolors=&t_Co
 colorscheme solarized
 
 " Ensure that the line-number background is transparent
@@ -17,38 +16,37 @@ hi clear LineNr
 
 " Ensure that the sign-column background is transparent
 hi clear SignColumn
-
-" Highlighting rule to catch leading/trailing whitespace
+"
+" Highlighting rule to catch leading/trainling whitespace
 au BufRead,BufNew,BufNewFile * syn match ExtraSpace /^\s\+\|\s\+$/
 
 " Right rule
-set colorcolumn=81
+set colorcolumn=88
 
 " General
 set backspace=eol,indent,start
 set cursorline
 set encoding=utf-8
-set hidden
-set ignorecase
 set incsearch
 set laststatus=2
-set lazyredraw
 set nobackup
 set nocompatible
-set nohlsearch
-set noswapfile
+set nohls
 set notitle
-set nowrap
 set number
 set scrolloff=3
 set showmatch
 set showtabline=2
-set smartcase
+set ignorecase smartcase
 set ttyfast
+set lazyredraw
 set visualbell
 set wildmode=list:longest
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+let loaded_matchparen = 1
+let mapleader = ','
 
 " Use spaces instead of TABs
 set shiftwidth=2
@@ -57,12 +55,9 @@ set expandtab
 
 " GUI specific ({g,Mac}Vim)
 if has('gui_running')
+  set guifont=Monaco:h12
   set guioptions-=r
 endif
-
-" Folds
-au BufWinLeave * silent! mkview
-au BufWinEnter * silent! loadview
 
 " Toggle Highlight-Whitespace Helper
 function! ToggleHighlightWhitespace()
@@ -78,30 +73,33 @@ function! ToggleHighlightWhitespace()
   endif
   redraw!
 endfunction
-map <F3> :call ToggleHighlightWhitespace()<CR>
+noremap <F3> :call ToggleHighlightWhitespace()<CR>
 
 " Toggle Paste-Mode Helper
 function! TogglePasteMode()
   set paste!
   redraw!
 endfunction
-map <F2> :call TogglePasteMode()<CR>
+noremap <F2> :call TogglePasteMode()<CR>
 
 " Silver Searcher / CtrlP
 let g:ctrlp_root_markers = ['.ctrlp']
 let g:ctrlp_working_path_mode = 'rw'
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --ignore\ tags
-  let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching=0
+  let g:ctrlp_user_command='ag %s -l --nocolor -i -g ""'
+  let g:ctrlp_use_caching=1
 endif
+" Sane Ignore For ctrlp
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp\|\vendor\/java$',
+  \ 'file': '\.exe$\|\.so$\|\.dat$'
+  \ }
 
 " Find in Files
-command -nargs=+ -complete=file -bar FindInFiles silent! grep! <args>|cwindow|redraw!
-map <C-S-F> :FindInFiles<SPACE>
-
+command! -nargs=+ -complete=file -bar FindInFiles silent! grep! <args>|cwindow|redraw!
 " Find All References
-map <C-K> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR><CR>
+noremap <C-K> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR><CR>
 
 " Toggle the Location and Quickfix windows
 function! GetBufferList()
@@ -119,9 +117,9 @@ function! ToggleList(bufname, pfx)
     endif
   endfor
   if a:pfx == 'l' && len(getloclist(0)) == 0
-      echohl ErrorMsg
-      echo "Location List is Empty."
-      return
+    echohl ErrorMsg
+    echo "Location List is Empty."
+    return
   endif
   let winnr = winnr()
   exec(a:pfx.'open')
@@ -129,64 +127,126 @@ function! ToggleList(bufname, pfx)
     wincmd p
   endif
 endfunction
-nmap <silent> <Leader>g :call ToggleList("Location List", 'l')<CR>
-nmap <silent> <Leader>q :call ToggleList("Quickfix List", 'c')<CR>
+nnoremap <silent> <Leader>g :call ToggleList("Location List", 'l')<CR>
+nnoremap <silent> <Leader>q :call ToggleList("Quickfix List", 'c')<CR>
 
 " Rspec.vim mappings
-let g:rspec_command = "Dispatch rspec {spec}"
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-
-" Syntastic
-let g:syntastic_always_populate_loc_list=1
+let g:rspec_command = "!(hash zeus 2> /dev/null && \zeus rspec {spec}) || (hash zeus 2> /dev/null || bash -l -c 'rspec {spec}')"
+noremap <Leader>s :call RunCurrentSpecFile()<CR>
+noremap <Leader>l :call RunLastSpec()<CR>
+noremap <Leader>a :call RunAllSpecs()<CR>
 
 " Lightline
 function! CurrentFilename()
   return ('' != expand('%:p') ? substitute(expand('%:p'), expand('$HOME'), '~', 'g') : '[No Name]')
 endfunction
 let g:lightline = {
-  \ 'colorscheme': 'solarized_dark',
-  \ 'active': {
-  \   'left': [
-  \      ['mode', 'paste'],
-  \      ['fugitive', 'readonly', 'filename', 'modified']
-  \   ]
-  \ },
-  \ 'component': {
-  \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-  \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-  \ },
-  \ 'component_function': {
-  \   'filename': 'CurrentFilename'
-  \ },
-  \ 'component_visible_condition': {
-  \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-  \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-  \ }
-\ }
+      \ 'colorscheme': 'solarized_dark',
+      \ 'active': {
+      \   'left': [
+      \      ['mode', 'paste'],
+      \      ['fugitive', 'readonly', 'filename', 'modified']
+      \   ]
+      \ },
+      \ 'component': {
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ },
+      \ 'component_function': {
+      \   'filename': 'CurrentFilename'
+      \ },
+      \ 'component_visible_condition': {
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ }
+      \ }
 
-" Get off my lawn (force use of home-row)
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
+" ----------------------------------------------------------
+" auto remove trailing whitespace from certain filetypes
+" ----------------------------------------------------------
+function! <SID>StripTrailingWhitespaces()
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+autocmd! BufWritePre * :call <SID>StripTrailingWhitespaces()
+noremap <Leader>ss :call <SID>StripTrailingWhitespaces()<CR>
 
-" Move the currentl line to the center of the screen
-nnoremap <SPACE> zvzz
+" ----------------------------------------------------------
+" Ruby supertab
+" ----------------------------------------------------------
+autocmd! FileType ruby,eruby set omnifunc=rubycomplete#Complete
+autocmd! FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd! FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd! FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+"improve autocomplete menu color
+highlight Pmenu ctermbg=238 gui=bold
 
-" Buffer/Tab manipulation
-nnoremap tn :tabnext<CR>
-nnoremap to :tabnew<CR>
-nnoremap tp :tabprevious<CR>
-nnoremap tw :tabclose<CR>
-nnoremap bn :bnext<CR>
-nnoremap bp :bprevious<CR>
-nnoremap bw :bwipeout<CR>
-nnoremap bl :buffers<CR>
+" ----------------------------------------------------------
+" Window resizing mappping
+" ----------------------------------------------------------
+" window resizing mappings (functions.vim plugin)/*{{{*/
+nnoremap <silent> <S-Up> :normal <c-r>=Resize('+')<cr><cr>
+nnoremap <silent> <S-Down> :normal <c-r>=Resize('-')<cr><cr>
+nnoremap <silent> <S-Left> :normal <c-r>=Resize('<')<cr><cr>
+nnoremap <silent> <S-Right> :normal <c-r>=Resize('>')<cr><cr>
 
-" Load ctags for gems
-autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
-  \ pathogen#split(&tags) +
-  \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+fun! Resize(dir)
+  let this = winnr()
+  if '+' == a:dir || '-' == a:dir
+    execute "normal <c-w>k"
+    let up = winnr()
+    if up != this
+      execute "normal <c-w>j"
+      let x = 'bottom'
+    else
+      let x = 'top'
+    endif
+  elseif '>' == a:dir || '<' == a:dir
+    execute "normal <c-w>h"
+    let left = winnr()
+    if left != this
+      execute "normal <c-w>l"
+      let x = 'right'
+    else
+      let x = 'left'
+    endif
+  endif
+
+  if ('+' == a:dir && 'bottom' == x) || ('-' == a:dir && 'top' == x)
+    return "5\<c-v>\<c-w>+"
+  elseif ('-' == a:dir && 'bottom' == x) || ('+' == a:dir && 'top' == x)
+    return "5\<c-v>\<c-w>-"
+  elseif ('<' == a:dir && 'left' == x) || ('>' == a:dir && 'right' == x)
+    return "5\<c-v>\<c-w><"
+  elseif ('>' == a:dir && 'left' == x) || ('<' == a:dir && 'right' == x)
+    return "5\<c-v>\<c-w>>"
+  else
+    echo "oops. check your ~/.vimrc"
+    return ""
+  endif
+endfun
+
+" ReIndent current file
+function! ReIndentFile()
+  normal mzG=gg`z
+  w
+endfunction
+noremap ri :call ReIndentFile()<CR>
+
+function! PunchableOffence()
+  for line in getline(1,25)
+    if match(line, '^   \w') != -1
+      echohl ErrorMsg
+      echo "  Current File has 3 space tabs! You should really consider punching someone (Or press ri)"
+      return
+    endif
+  endfor
+endfunction
+autocmd! BufRead *.rb call PunchableOffence()
