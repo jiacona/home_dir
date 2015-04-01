@@ -1,7 +1,3 @@
-[submodule "home/.oh-my-zsh"]
-  path = home/.oh-my-zsh
-  url = https://github.com/robbyrussell/oh-my-zsh.git
-  ignore = dirty
 [submodule "home/.vim/bundle/vim-fugitive"]
   path = home/.vim/bundle/vim-fugitive
   url = https://github.com/tpope/vim-fugitive.git
@@ -24,11 +20,7 @@
   ignore = dirty
 [submodule "home/.vim/bundle/tcomment.vim"]
   path = home/.vim/bundle/tcomment.vim
-  url = https://github.com/tomtom/tcomment_vim
-  ignore = dirty
-[submodule "home/.vim/bundle/vim-rspec"]
-  path = home/.vim/bundle/vim-rspec
-  url = https://github.com/thoughtbot/vim-rspec
+  url = https://github.com/tomtom/tcomment_vim.git
   ignore = dirty
 [submodule "home/.vim/bundle/vim-surround"]
   path = home/.vim/bundle/vim-surround
@@ -42,15 +34,23 @@
   path = home/.vim/bundle/syntastic
   url = https://github.com/scrooloose/syntastic.git
   ignore = dirty
-[submodule "home/.vim/bundle/vim-dispatch"]
-  path = home/.vim/bundle/vim-dispatch
-  url = https://github.com/tpope/vim-dispatch.git
-  ignore = dirty
 [submodule "home/.vim/bundle/tabline.vim"]
   path = home/.vim/bundle/tabline.vim
   url = https://github.com/mkitt/tabline.vim.git
   ignore = dirty
-[submodule "misc/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
-  path = misc/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-  url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "home/.vim/bundle/vim-slime"]
+  path = home/.vim/bundle/vim-slime
+  url = https://github.com/jpalardy/vim-slime.git
+  ignore = dirty
+[submodule "home/.oh-my-zsh"]
+  path = home/.oh-my-zsh
+  url = https://github.com/robbyrussell/oh-my-zsh.git
+  ignore = dirty
+[submodule "home/.vim/bundle/vim-indent-guides"]
+  path = home/.vim/bundle/vim-indent-guides
+  url = https://github.com/nathanaelkane/vim-indent-guides.git
+  ignore = dirty
+[submodule "home/.vim/bundle/vim-puppet"]
+  path = home/.vim/bundle/vim-puppet
+  url = https://github.com/rodjek/vim-puppet.git
   ignore = dirty

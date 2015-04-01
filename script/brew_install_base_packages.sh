@@ -1,18 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if [ -n "$EXTENDED_BOOTSTRAP" ];
-then
+if [ -n "$EXTENDED_BOOTSTRAP" ]; then
   brew_cmd=`which brew`;
-  if [ -n "$brew_cmd" ];
-  then
+  if [ -n "$brew_cmd" ]; then
     for package in \
       ag \
       apg \
+      bash \
       bash-completion \
       ctags \
       git \
       gnu-sed \
       htop-osx \
+      jq \
       openssl \
       readline \
       tmux \
@@ -22,8 +22,7 @@ then
       zsh-completions;
     do
       package_details=`$brew_cmd list $package 2> /dev/null`;
-      if [ -z "$package_details" ];
-      then
+      if [ -z "$package_details" ]; then
         $brew_cmd install $package;
       fi
     done

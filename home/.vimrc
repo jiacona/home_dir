@@ -59,6 +59,8 @@ if has('gui_running')
   set guioptions-=r
 endif
 
+let g:slime_target = "tmux"
+
 " Toggle Highlight-Whitespace Helper
 function! ToggleHighlightWhitespace()
   if !exists('g:highlight_whitespace')
@@ -131,7 +133,7 @@ nnoremap <silent> <Leader>g :call ToggleList("Location List", 'l')<CR>
 nnoremap <silent> <Leader>q :call ToggleList("Quickfix List", 'c')<CR>
 
 " Rspec.vim mappings
-let g:rspec_command = "!(hash zeus 2> /dev/null && \zeus rspec {spec}) || (hash zeus 2> /dev/null || bash -l -c 'rspec {spec}')"
+let g:rspec_command = "!(bash -l -c 'rspec {spec}')"
 noremap <Leader>s :call RunCurrentSpecFile()<CR>
 noremap <Leader>l :call RunLastSpec()<CR>
 noremap <Leader>a :call RunAllSpecs()<CR>
@@ -175,6 +177,7 @@ function! <SID>StripTrailingWhitespaces()
   let @/=_s
   call cursor(l, c)
 endfunction
+
 autocmd! BufWritePre * :call <SID>StripTrailingWhitespaces()
 noremap <Leader>ss :call <SID>StripTrailingWhitespaces()<CR>
 
@@ -233,6 +236,12 @@ fun! Resize(dir)
   endif
 endfun
 
+noremap <leader>ev :split $MYVIMRC<cr>
+noremap <leader>sv :source $MYVIMRC<cr>
+
+noremap H ^
+noremap L $
+
 " ReIndent current file
 function! ReIndentFile()
   normal mzG=gg`z
@@ -250,3 +259,8 @@ function! PunchableOffence()
   endfor
 endfunction
 autocmd! BufRead *.rb call PunchableOffence()
+
+" Load ctags for gems
+autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
+  \ pathogen#split(&tags) +
+  \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))

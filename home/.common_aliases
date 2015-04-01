@@ -1,17 +1,19 @@
 # General
 alias ctags='~/bin/ctags.sh';
-alias edit='~/bin/edit.sh';
 alias find='~/bin/find.sh';
 alias gg='git grep';
 alias grep='~/bin/grep.sh';
+alias htop='~/bin/htop.sh';
 alias ipython='CWD=`pwd` ~/bin/ipython.sh';
 alias ll='~/bin/ls.sh -l';
 alias ls='~/bin/ls.sh';
 alias mycnf='~/bin/mycnf.sh';
+alias tmux='~/bin/tmux.sh';
 alias uber_kill='~/bin/uber_kill.sh';
 alias uk='~/bin/uber_kill.sh';
-alias vag='vagrant';
+alias vagrant='~/bin/vagrant.sh';
 alias vi='vim';
+alias with_rvm_rubies='~/bin/with_rvm_rubies.sh';
 alias wo='source ~/bin/workon.sh';
 alias workon='source ~/bin/workon.sh';
 
@@ -28,15 +30,17 @@ alias ..........='cd ../../../../../../../../..';
 alias ...........='cd ../../../../../../../../../..';
 
 # dynamically detect project directories and create aliases
-if [ -d "$SOURCE_DIRECTORY" ];
-then
-  for d in `\ls $SOURCE_DIRECTORY`;
-  do
+if [ -d $SOURCE_DIRECTORY ]; then
+  for d in `\ls $SOURCE_DIRECTORY`; do
+    # workon specific project
+    alias cd-$d="workon $d";
     # open mvim at project root
     alias mvim-$d="(workon-$d; mvim)";
     # open vim at project root
     alias vim-$d="(workon-$d; vim)";
     # workon specific project
+    alias wo-$d="workon $d";
+    # workon specific project (variant)
     alias workon-$d="workon $d";
   done
 fi

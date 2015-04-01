@@ -1,10 +1,10 @@
-if [ -n "$XTERM_VERSION" ];
-then
-  bindkey '^[[1;3D' backward-word;
-  bindkey '^[[1;3C' forward-word;
-  if [ -n "$TMUX_PANE" ];
-  then
-    bindkey '^[^[[D' backward-word;
-    bindkey '^[^[[C' forward-word;
-  fi
+if [ -n "$PUTTY" ]; then
+  bindkey 'OD' backward-word;
+  bindkey 'OC' forward-word;
+elif [ -n "$TMUX_PANE" ]; then
+  bindkey 'OD' backward-word;
+  bindkey 'OC' forward-word;
+else
+  bindkey '\e[1;3D' backward-word;
+  bindkey '\e[1;3C' forward-word;
 fi
