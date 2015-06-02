@@ -1,56 +1,7 @@
-[submodule "home/.vim/bundle/vim-fugitive"]
-  path = home/.vim/bundle/vim-fugitive
-  url = https://github.com/tpope/vim-fugitive.git
-  ignore = dirty
-[submodule "home/.vim/bundle/vim-gitgutter"]
-  path = home/.vim/bundle/vim-gitgutter
-  url = https://github.com/airblade/vim-gitgutter.git
-  ignore = dirty
-[submodule "home/.vim/bundle/supertab"]
-  path = home/.vim/bundle/supertab
-  url = https://github.com/ervandew/supertab.git
-  ignore = dirty
-[submodule "home/.vim/bundle/ctrlp.vim"]
-  path = home/.vim/bundle/ctrlp.vim
-  url = https://github.com/kien/ctrlp.vim.git
-  ignore = dirty
-[submodule "home/.vim/bundle/vim-colors-solarized"]
-  path = home/.vim/bundle/vim-colors-solarized
-  url = https://github.com/altercation/vim-colors-solarized.git
-  ignore = dirty
-[submodule "home/.vim/bundle/tcomment.vim"]
-  path = home/.vim/bundle/tcomment.vim
-  url = https://github.com/tomtom/tcomment_vim.git
-  ignore = dirty
-[submodule "home/.vim/bundle/vim-surround"]
-  path = home/.vim/bundle/vim-surround
-  url = https://github.com/tpope/vim-surround.git
-  ignore = dirty
-[submodule "home/.vim/bundle/lightline.vim"]
-  path = home/.vim/bundle/lightline.vim
-  url = https://github.com/itchyny/lightline.vim.git
-  ignore = dirty
-[submodule "home/.vim/bundle/syntastic"]
-  path = home/.vim/bundle/syntastic
-  url = https://github.com/scrooloose/syntastic.git
-  ignore = dirty
-[submodule "home/.vim/bundle/tabline.vim"]
-  path = home/.vim/bundle/tabline.vim
-  url = https://github.com/mkitt/tabline.vim.git
-  ignore = dirty
-[submodule "home/.vim/bundle/vim-slime"]
-  path = home/.vim/bundle/vim-slime
-  url = https://github.com/jpalardy/vim-slime.git
-  ignore = dirty
 [submodule "home/.oh-my-zsh"]
   path = home/.oh-my-zsh
   url = https://github.com/robbyrussell/oh-my-zsh.git
   ignore = dirty
-[submodule "home/.vim/bundle/vim-indent-guides"]
-  path = home/.vim/bundle/vim-indent-guides
-  url = https://github.com/nathanaelkane/vim-indent-guides.git
-  ignore = dirty
-[submodule "home/.vim/bundle/vim-puppet"]
-  path = home/.vim/bundle/vim-puppet
-  url = https://github.com/rodjek/vim-puppet.git
-  ignore = dirty
+[submodule "home/.vim/bundle/Vundle.vim"]
+	path = home/.vim/bundle/Vundle.vim
+	url = https://github.com/gmarik/Vundle.vim
