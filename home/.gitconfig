@@ -13,6 +13,8 @@
   h = help
   ignore = update-index --assume-unchanged
   ignored = !git ls-files -v | grep "^[[:lower:]]"
+  lol = log --graph --oneline --decorate
+  lola = log --branches --tags --remotes --graph --oneline --decorate
   move = mv
   praise = blame
   put = push -u origin HEAD
