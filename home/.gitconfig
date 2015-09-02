@@ -1,4 +1,6 @@
 [alias]
+  addnw = "!f() { git diff -w --no-color \"$@\" | git apply --cached --ignore-whitespace; }; f"
+  addw = "!f() { git add \"$1\"; git diff --cached -w | git apply --cached -R; }; f"
   amend = commit --amend
   ann = annotate
   br = branch
@@ -11,6 +13,8 @@
   h = help
   ignore = update-index --assume-unchanged
   ignored = !git ls-files -v | grep "^[[:lower:]]"
+  lol = log --graph --oneline --decorate
+  lola = log --branches --tags --remotes --graph --oneline --decorate
   move = mv
   praise = blame
   put = push -u origin HEAD
@@ -51,5 +55,5 @@
 [push]
   default = tracking
 [user]
-  email = JonathanZaleski@gmail.com
-  name = Jonathan W. Zaleski
+  email = john.iacona@gmail.com
+  name = John Iacona

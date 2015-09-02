@@ -17,13 +17,7 @@ if [ -z "$LANG" ]; then
 fi
 
 # Ensure that "TERM" is [properly] set
-if [ -z "$TERM" ] || [[ $TERM =~ 'screen|xterm' ]]; then
-  if [ -n "$TMUX_PANE" ]; then
-    export TERM=screen-256color;
-  else
-    export TERM=xterm-256color;
-  fi
-fi
+export TERM=screen-256color-bce;
 
 # If it exists, process ".cygwinrc"
 CYGWINRC_FILE=$HOME/.cygwinrc;
