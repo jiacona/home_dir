@@ -13,6 +13,10 @@ export HISTTIMEFORMAT='%Y-%m-%d %H:%M:%S - ';
 export HISTSIZE=100000;
 export HISTFILESIZE=100000;
 
+# Make sure less actually highlights searches instead of italicising
+export LESS_TERMCAP_so=$'\E[0;30;43m'
+export LESS_TERMCAP_se=$'\E[0m'
+
 # Don't require "cd" when changing directories
 shopt -s autocd > /dev/null 2>&1;
 
