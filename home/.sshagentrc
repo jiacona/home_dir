@@ -1,6 +1,6 @@
 # Start "ssh-agent" if there isn't one running
 SSH_ENV=$HOME/.ssh/environment;
-if [ `ps -ef | \grep -c "[s]sh-agent"` -eq 0 ]; then
+if [ `ps -ef | \grep "[s]sh-agent"` | grep -v -c "<defunct>"` -eq 0 ]; then
   ssh-agent | head -2 > $SSH_ENV;
   chmod 0600 $SSH_ENV;
 fi
