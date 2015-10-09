@@ -4,6 +4,13 @@ export PATH=./bin:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:
 # Set the default editor (Git amongst others use this)
 export EDITOR=vim;
 
+# If pygmentize exist use it with less
+PYGMENTIZE=`type -p pygmentize`
+if [ -x $PYGMENTIZE ]; then
+  export LESS=" -R"
+  export LESSOPEN="|pygmentize %s";
+fi
+
 # Used by helper scripts (e.g. workon)
 export SOURCE_DIRECTORY=$HOME/src;
 
