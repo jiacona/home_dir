@@ -20,11 +20,8 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1;
 
 # Ensure that "LANG" is set
 if [ -z "$LANG" ]; then
-  export LANG=en_US.UTF-8;
+  export LANG=en_GB.UTF-8;
 fi
-
-# Ensure that "TERM" is [properly] set
-export TERM=screen-256color-bce;
 
 # If it exists, process ".cygwinrc"
 CYGWINRC_FILE=$HOME/.cygwinrc;

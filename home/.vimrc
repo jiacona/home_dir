@@ -7,8 +7,6 @@ filetype plugin indent on
 
 " Colorscheme
 set background=dark
-set t_Co=256
-let g:solarized_termcolors=&t_Co
 colorscheme solarized
 
 " Ensure that the line-number background is transparent
