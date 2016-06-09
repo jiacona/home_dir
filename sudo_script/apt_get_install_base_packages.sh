@@ -16,6 +16,7 @@ if [ -n "$EXTENDED_BOOTSTRAP" ]; then
       linux-headers-$(uname -r) \
       python \
       python-dev \
+      python-pygments \
       python-setuptools \
       python-software-properties \
       screen \

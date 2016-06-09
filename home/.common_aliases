@@ -17,6 +17,9 @@ alias with_rvm_rubies='~/bin/with_rvm_rubies.sh';
 alias wo='source ~/bin/workon.sh';
 alias workon='source ~/bin/workon.sh';
 
+# Docker
+alias docker-rm-dangling-volumes='docker volume ls -f dangling=true | cut -d' ' -f 16 | tail -n +2 | xargs -I{} docker volume rm {}'
+
 # The ability to navigate 10 directories up should be enough to cover most cases
 alias ..='cd ..';
 alias ...='cd ../..';
