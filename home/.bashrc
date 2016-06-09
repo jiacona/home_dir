@@ -54,3 +54,9 @@ INPUTRC_TMUX_FILE=$HOME/.inputrc-tmux;
 if [ -n "$TMUX_PANE" ] && [ -f $INPUTRC_TMUX_FILE ]; then
   export INPUTRC=$INPUTRC_TMUX_FILE;
 fi
+
+# If it exists, process ".go_conf"
+GO_FILE=$HOME/.go_conf;
+if [ -f $GO_FILE ]; then
+  source $GO_FILE;
+fi
