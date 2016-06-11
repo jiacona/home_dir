@@ -1,2 +1,25 @@
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
+
+# detect go source directories and create shortcut aliases
+packages=$GOPATH/src
+github=$packages/github.com
+mygh=$github/jiacona
+
+if [ -d $packages ]; then
+  for d in `\ls $packages`; do
+    alias go-$d="cd $packages/$d";
+  done
+fi
+
+if [ -d $github ]; then
+  for d in `\ls $github`; do
+    alias go-gh-$d="cd $github/$d";
+  done
+fi
+
+if [ -d $mygh ]; then
+  for d in `\ls $mygh`; do
+    alias go-mygh-$d="cd $mygh/$d";
+  done
+fi
