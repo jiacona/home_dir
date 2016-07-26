@@ -17,7 +17,7 @@
   lola = log --branches --tags --remotes --graph --oneline --decorate
   move = mv
   praise = blame
-  put = push -u origin HEAD
+  put = "!f() { remote=${1:-origin}; git push -u $remote HEAD; }; f"
   rb = rebase
   rem = rm
   remove = rm
