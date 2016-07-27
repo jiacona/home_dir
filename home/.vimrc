@@ -51,6 +51,24 @@ set shiftwidth=2
 set tabstop=2
 set expandtab
 
+" Set indentation rules for java (and files with tabs)
+set listchars=tab:»\ ,eol:¬
+highlight NonText term=NONE cterm=NONE ctermfg=0
+highlight SpecialKey term=NONE cterm=NONE ctermbg=NONE ctermfg=0
+
+autocmd Filetype java setlocal noexpandtab
+function! ToggleTabMode()
+  let expand = &expandtab
+  if expand
+    set noexpandtab
+    set list
+  else
+    set expandtab
+    set nolist
+  end
+endfunction
+noremap <F5> :call ToggleTabMode()<CR>
+
 " GUI specific ({g,Mac}Vim)
 if has('gui_running')
   set guifont=Monaco:h12
@@ -73,7 +91,7 @@ function! ToggleHighlightWhitespace()
   endif
   redraw!
 endfunction
-noremap <F3> :call ToggleHighlightWhitespace()<CR>
+noremap <F4> :call ToggleHighlightWhitespace()<CR>
 
 " Toggle Paste-Mode Helper
 function! TogglePasteMode()
@@ -92,12 +110,13 @@ if executable('ag')
 endif
 " Sane Ignore For ctrlp
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp\|\vendor\/java$',
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp\|\vendor\/java$|target/',
   \ 'file': '\.exe$\|\.so$\|\.dat$'
   \ }
 
 " Find in Files
 command! -nargs=+ -complete=file -bar FindInFiles silent! grep! <args>|cwindow|redraw!
+noremap <F3> :FindInFiles<SPACE>
 " Find All References
 noremap <C-K> :grep! "\b<C-R><C-W>\b"<CR>:cw<CR><CR>
 
@@ -127,7 +146,6 @@ function! ToggleList(bufname, pfx)
     wincmd p
   endif
 endfunction
-nnoremap <silent> <Leader>g :call ToggleList("Location List", 'l')<CR>
 nnoremap <silent> <Leader>q :call ToggleList("Quickfix List", 'c')<CR>
 
 " Rspec.vim mappings
@@ -158,7 +176,9 @@ let g:lightline = {
       \ 'component_visible_condition': {
       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      \ }
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' }
       \ }
 
 " ----------------------------------------------------------
@@ -176,7 +196,7 @@ function! <SID>StripTrailingWhitespaces()
   call cursor(l, c)
 endfunction
 
-autocmd! BufWritePre * :call <SID>StripTrailingWhitespaces()
+" autocmd! BufWritePre * :call <SID>StripTrailingWhitespaces()
 noremap <Leader>ss :call <SID>StripTrailingWhitespaces()<CR>
 
 " ----------------------------------------------------------
@@ -235,6 +255,7 @@ fun! Resize(dir)
 endfun
 
 noremap <leader>ev :split $MYVIMRC<cr>
+noremap <leader>ev :split $MYVIMRC<cr>
 noremap <leader>sv :source $MYVIMRC<cr>
 
 noremap H ^
@@ -247,18 +268,22 @@ function! ReIndentFile()
 endfunction
 noremap ri :call ReIndentFile()<CR>
 
-function! PunchableOffence()
-  for line in getline(1,25)
-    if match(line, '^   \w') != -1
-      echohl ErrorMsg
-      echo "  Current File has 3 space tabs! You should really consider punching someone (Or press ri)"
-      return
-    endif
-  endfor
-endfunction
-autocmd! BufRead *.rb call PunchableOffence()
-
 " Load ctags for gems
 autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
   \ pathogen#split(&tags) +
   \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+
+" Associate *.tagx files with xml filetype
+au BufRead,BufNewFile *.tagx setfiletype xml
+
+" Toggle word wrap
+function! ToggleWordWrap()
+  if &tw
+    echo "Turning off text wrapping"
+    setlocal tw=0
+  else
+    echo "Turning on text wrapping at col 88"
+    setlocal tw=88
+  endif
+endfunction
+noremap <leader>ww :call ToggleWordWrap()<CR>
