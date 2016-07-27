@@ -1,0 +1,5 @@
+# Switch namespaces
+kube_set_namespace() {
+  kubectl config set-context `kubectl config view | grep current-context | awk '{print $2}'` --namespace=$1
+}
+alias kube-set-namespace="kube_set_namespace"

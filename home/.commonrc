@@ -4,13 +4,6 @@ export PATH=./bin:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:
 # Set the default editor (Git amongst others use this)
 export EDITOR=vim;
 
-# If pygmentize exist use it with less
-PYGMENTIZE=`type -p pygmentize`
-if [ -x $PYGMENTIZE ]; then
-  export LESS=" -R"
-  export LESSOPEN="|pygmentize %s";
-fi
-
 # Used by helper scripts (e.g. workon)
 export SOURCE_DIRECTORY=$HOME/src;
 
@@ -20,8 +13,11 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1;
 
 # Ensure that "LANG" is set
 if [ -z "$LANG" ]; then
-  export LANG=en_GB.UTF-8;
+  export LANG=en_US.UTF-8;
 fi
+
+# Ensure that "TERM" is [properly] set
+# export TERM=screen-256color;
 
 # If it exists, process ".cygwinrc"
 CYGWINRC_FILE=$HOME/.cygwinrc;
@@ -51,6 +47,12 @@ fi
 COMMON_FUNCTIONS_FILE=$HOME/.common_functions;
 if [ -f $COMMON_FUNCTIONS_FILE ]; then
   source $COMMON_FUNCTIONS_FILE;
+fi
+
+# If it exists, process ".kubernetes_helpers"
+KUBERNETES_HELPERS_FILE=$HOME/.kubernetes_helpers;
+if [ -f $KUBERNETES_HELPERS_FILE ]; then
+  source $KUBERNETES_HELPERS_FILE;
 fi
 
 # Conditionally set up "ssh-askpass" (this must be done before processing ".sshagentrc")
