@@ -5,7 +5,7 @@ alias gg='git grep';
 alias grep='~/bin/grep.sh';
 alias htop='~/bin/htop.sh';
 alias ipython='CWD=`pwd` ~/bin/ipython.sh';
-alias ll='~/bin/ls.sh -l';
+alias ll='~/bin/ls.sh -lh';
 alias ls='~/bin/ls.sh';
 alias mycnf='~/bin/mycnf.sh';
 alias tmux='~/bin/tmux.sh';
@@ -18,7 +18,9 @@ alias wo='source ~/bin/workon.sh';
 alias workon='source ~/bin/workon.sh';
 
 # Docker
-alias docker-rm-dangling-volumes='docker volume ls -f dangling=true | cut -d' ' -f 16 | tail -n +2 | xargs -I{} docker volume rm {}'
+alias docker-rm-dangling-volumes="docker volume ls -f dangling=true | cut -d' ' -f 16 | tail -n +2 | xargs -I{} docker volume rm {}";
+alias docker-rm-dangling-images="docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi";
+alias docker-unmount-volumes="umount -l $(grep 'aufs' /proc/mounts | awk '{print$2}' | sort -r)";
 
 # The ability to navigate 10 directories up should be enough to cover most cases
 alias ..='cd ..';
@@ -37,13 +39,6 @@ if [ -d $SOURCE_DIRECTORY ]; then
   for d in `\ls $SOURCE_DIRECTORY`; do
     # workon specific project
     alias cd-$d="workon $d";
-    # open mvim at project root
-    alias mvim-$d="(workon-$d; mvim)";
-    # open vim at project root
     alias vim-$d="(workon-$d; vim)";
-    # workon specific project
-    alias wo-$d="workon $d";
-    # workon specific project (variant)
-    alias workon-$d="workon $d";
   done
 fi
