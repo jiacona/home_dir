@@ -14,6 +14,7 @@ export HISTSIZE=100000;
 export HISTFILESIZE=100000;
 
 # Make sure less actually highlights searches instead of italicising
+export LESS=" -iRSFX"
 export LESS_TERMCAP_so=$'\E[0;30;43m'
 export LESS_TERMCAP_se=$'\E[0m'
 
@@ -59,8 +60,8 @@ if [ -n "$TMUX_PANE" ] && [ -f $INPUTRC_TMUX_FILE ]; then
   export INPUTRC=$INPUTRC_TMUX_FILE;
 fi
 
-# If it exists, process ".go_conf"
-GO_FILE=$HOME/.go_conf;
-if [ -f $GO_FILE ]; then
-  source $GO_FILE;
-fi
+[ -f $HOME/.kewprofile ] && source $HOME/.kewprofile
+[ -f $HOME/.dir_colors ] && eval `dircolors $HOME/.dir_colors`
+[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
+
+TERM=xterm-256color tmux
