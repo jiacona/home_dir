@@ -9,4 +9,4 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/(\1$(parse_git_dirty))/";
 }
 
-export PS1='\e[0m[$(date +"%T")] \[\e[0;36m\] \w \[\e[0m\]$(parse_git_branch) \[\e[0;37m\]$ ';
+export PS1='\e[0m[$(date +"%T")] \[\e[0;36m\] \w \[\e[0m\]$(parse_git_branch) \[\e[0;37m\]\n$ ';
