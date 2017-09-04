@@ -1,0 +1,27 @@
+alias build-powop-with-docker="(cd-emonocot && mvn install -Ddocker.registry=$DOCKER_REGISTRY -o)";
+alias build-powop-offline="(cd-emonocot && mvn install -DskipDockerBuild -DskipDockerTag -o)";
+alias build-powop="(cd-emonocot && mvn install -DskipDockerBuild -DskipDockerTag)";
+alias cd-frontend="cd-portal && cd src/main/frontend";
+alias cd-harvest-frontend="cd-harvest; cd src/main/resources";
+alias build-frontend="(cd-portal && cd src/main/frontend && gulp)";
+alias build-frontend-js="(cd-portal && cd src/main/frontend && gulp scripts)";
+alias test-unit-powop="(cd-emonocot && mvn test -Punit -DskipDockerBuild -DskipDockerTag)";
+alias test-integration-powop="(cd-emonocot && mvn verify -Pintegration -DskipDockerBuild -DskipDockerTag)";
+alias clean-build-powop-with-docker="(cd-emonocot && mvn clean install -Ddocker.registry=$DOCKER_REGISTRY -o)";
+alias clean-build-powop="(cd-emonocot && mvn clean install -DskipDockerBuild -DskipDockerTag)";
+
+for folder in `(cd-emonocot; \ls -d emonocot-*)`; do
+  submodule=${folder#*-}
+  alias cd-$submodule="cd-emonocot; cd emonocot-$submodule";
+  alias build-$submodule-with-docker="(cd-$submodule && mvn install -Ddocker.registry=$DOCKER_REGISTRY)";
+  alias build-$submodule-offline="(cd-$submodule && mvn install -DskipDockerBuild -DskipDockerTag -o)";
+  alias build-$submodule="(cd-$submodule && mvn install -DskipDockerBuild -DskipDockerTag)";
+  alias clean-build-$submodule-with-docker="(cd-$submodule && mvn clean install -Ddocker.registry=$DOCKER_REGISTRY)";
+  alias clean-build-$submodule="(cd-$submodule && mvn clean install -DskipDockerBuild -DskipDockerTag)";
+  alias test-unit-$submodule="(cd-$submodule && mvn test -Punit -DskipDockerBuild -DskipDockerTag)";
+  alias test-integration-$submodule="(cd-$submodule && mvn verify -Pintegration -DskipDockerBuild -DskipDockerTag)";
+done
+
+alias cd-ipni-frontend="cd-ipni-web; cd web/src/main/resources"
+alias start-ipni-frontend="(cd-ipni-frontend && npm start)"
+alias build-ipni-web="(cd-ipni-web && cd web && mvn package && docker-compose restart web)"
