@@ -54,3 +54,9 @@
   path = home/.vim/bundle/vim-puppet
   url = https://github.com/rodjek/vim-puppet.git
   ignore = dirty
+[submodule "vendor/fzf"]
+	path = vendor/fzf
+	url = https://github.com/junegunn/fzf.git
+[submodule "vendor/dircolors-solarized"]
+	path = vendor/dircolors-solarized
+	url = https://github.com/seebi/dircolors-solarized.git
