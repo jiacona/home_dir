@@ -86,6 +86,11 @@ if [ -d $CUSTOM_INIT_SCRIPTS_DIRECTORY ]; then
   done
 fi
 
+DIRCOLORS=$SOURCE_DIRECTORY/dircolors-solarized
+if [ -d $DIRCOLORS ]; then
+  eval `dircolors $DIRCOLORS/dircolors.256dark`
+fi
+
 # If it exists, load RVM (it *must* be initialized last)
 RVM_SCRIPT=$HOME/.rvm/scripts/rvm;
 if [ -f $RVM_SCRIPT ]; then

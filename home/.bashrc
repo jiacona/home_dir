@@ -60,8 +60,38 @@ if [ -n "$TMUX_PANE" ] && [ -f $INPUTRC_TMUX_FILE ]; then
   export INPUTRC=$INPUTRC_TMUX_FILE;
 fi
 
-[ -f $HOME/.kewprofile ] && source $HOME/.kewprofile
+[ -f $HOME/.kew_aliases ] && source $HOME/.kew_aliases
 [ -f $HOME/.dir_colors ] && eval `dircolors $HOME/.dir_colors`
 [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 
 TERM=xterm-256color tmux
+
+source /opt/google-cloud-sdk/path.bash.inc
+source /opt/google-cloud-sdk/completion.bash.inc
+source <(kubectl completion bash)
+
+eval "$(fasd --init auto)"
+
+# Use fd (https://github.com/sharkdp/fd) instead of the default find
+# command for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+v() {
+  local file
+  file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && vi "${file}" || return 1
+}
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/ji10kg/.sdkman"
+[[ -s "/home/ji10kg/.sdkman/bin/sdkman-init.sh" ]] && source "/home/ji10kg/.sdkman/bin/sdkman-init.sh"
+
+export PATH="$HOME/.cargo/bin:$PATH"

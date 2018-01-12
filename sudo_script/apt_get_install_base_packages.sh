@@ -4,7 +4,6 @@ if [ -n "$EXTENDED_BOOTSTRAP" ]; then
   apt_get_cmd=`which apt-get`;
   if [ -n "$apt_get_cmd" ]; then
     $apt_get_cmd install -y \
-      apg \
       automake \
       bash \
       bash-completion \
@@ -13,19 +12,10 @@ if [ -n "$EXTENDED_BOOTSTRAP" ]; then
       exuberant-ctags \
       git \
       htop \
-      linux-headers-$(uname -r) \
-      python \
-      python-dev \
-      python-pygments \
-      python-setuptools \
-      python-software-properties \
-      screen \
+      tmunx \
+      roxterm \
       unzip \
-      uuid-dev \
-      uuid-runtime \
-      vim \
+      neovim \
       wget \
-      zsh \
-      zsh-doc;
   fi
 fi
